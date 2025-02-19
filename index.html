@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>簡單抽獎系統</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .result {
+            margin: 20px;
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            font-size: 24px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>貓頭鷹抽獎系統</h1>
+        <div class="result" id="result">等待抽獎...</div>
+        <button onclick="startLottery()" id="lotteryButton">開始抽獎</button>
+    </div>
+
+    <audio id="spinSound" src="https://www.soundjay.com/button/sounds/button-09.mp3"></audio>
+
+    <script>
+        const prizes = [
+            "帥氣CCW",
+            "帥氣貓頭鷹把拔",
+            "沒用的貓頭鷹把拔",
+            "可愛的小貓頭鷹",
+            "偷懶的小貓頭鷹",
+            "你出局了"
+        ];
+
+        const resultElement = document.getElementById('result');
+        const button = document.getElementById('lotteryButton');
+        const sound = document.getElementById('spinSound');
+
+        function startLottery() {
+            button.disabled = true;
+            sound.play();
+            
+            let counter = 0;
+            const totalSpins = 20;
+            
+            const interval = setInterval(() => {
+                const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+                resultElement.textContent = randomPrize;
+                counter++;
+
+                if (counter >= totalSpins) {
+                    clearInterval(interval);
+                    button.disabled = false;
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
